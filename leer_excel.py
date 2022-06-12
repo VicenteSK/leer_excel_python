@@ -1,35 +1,9 @@
 from flask import Flask, request , jsonify
 import pandas as pd
 
+from validaciones import *
+
 app = Flask(__name__)
-
-def estaVacio(df):
-    if (df.empty):
-        print("esta vacio")
-        return True
-    else:
-        print("no esta vacio")
-        return False
-
-def esExcel(file):
-    if ".xls" in file:
-        print("si es archivo excel")
-        return True
-    else:
-        print("no es archivo excel")
-        return False
-        
-
-
-def checkColumnas(df):
-    columnas = ["Nombre", "ApellidoPaterno", "ApellidoMaterno", "Sexo", "Edad", "Run", "Parentesco"]
-    for columna in columnas:
-        if columna in df:
-            print("si está esta columna " + columna)
-        else:
-            print("no se encuentra columna " + columna)
-            return False
-    return True
 
 @app.route('/data', methods =['GET', 'POST'])
 def data():
@@ -45,8 +19,6 @@ def data():
         esExcel(file6)
         data = pd.read_excel(file4)
         #convierte excel en dataframe
-
-        # 1º validacion: que no este vacio
 
         estaVacio(data)
         
