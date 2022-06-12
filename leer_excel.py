@@ -53,13 +53,13 @@ def data():
         checkColumnas(data)
 
        # VALIDACIONE 1 que llegue el archivo
-        # VALIDACIONE 2.que sea Excel
+        # VALIDACIONE 2.que sea Excel **1/2 
         # VALIDACIONE 3.que no venga vacio *ok*****
         # VALIDACIONE 4 que vengan todas las columnas (en este caso el ejemplo es 7) **OK
         # VALIDACIONE 15. que los datos de cada columna respeten el contrato (ejemplo nombre, que no tenga números, email, rut)
         ###
     
-        return "data"
+        #return "data"
         #if not file.endswith('.xls'):
            # return {'error': 'no es un archivo excel'}
 
@@ -71,7 +71,7 @@ def data():
         #sql = "SELECT Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, Edad, Run, Parentesco FROM integrantesfamiliareceptora"  
         
         
-        # return data.to_json()
+        return data.to_json()
     
 
 
