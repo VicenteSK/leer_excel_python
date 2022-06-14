@@ -1,4 +1,4 @@
-from flask import Flask, request , jsonify
+from flask import Flask, render_template, request , jsonify
 import pandas as pd
 
 from validaciones import *
@@ -8,44 +8,30 @@ app = Flask(__name__)
 @app.route('/data', methods =['GET', 'POST'])
 def data():
     if request.method == 'GET':
-        # file = request.form['upload-file']
-        file1 = "integrantesfamiliareceptora.xlsx"
-        file2 = "integrantesvacio.xlsx"
-        file3 = "integrantes4columnas.xlsx"
-        file4 = "integrantessinapellidomaterno.xlsx"
-        file5 = "pruebaword.docx"
-        file6 = "hola.xls.docx"
+        return render_template("index.html")
 
-        esExcel(file6)
-        data = pd.read_excel(file4)
-        #convierte excel en dataframe
-
-        estaVacio(data)
-        
-        checkColumnas(data)
-
-       # VALIDACIONE 1 que llegue el archivo
-        # VALIDACIONE 2.que sea Excel **1/2 
-        # VALIDACIONE 3.que no venga vacio *ok*****
-        # VALIDACIONE 4 que vengan todas las columnas (en este caso el ejemplo es 7) **OK
-        # VALIDACIONE 15. que los datos de cada columna respeten el contrato (ejemplo nombre, que no tenga números, email, rut)
-        ###
-    
-        #return "data"
-        #if not file.endswith('.xls'):
-           # return {'error': 'no es un archivo excel'}
-
-         # // validacion de campos en tabla excel, en donde
-         # toma los datos de las tablas, lo transforma a una lista porque esta hecho en python
-          #para asi pasarlos a un .json//  
-    #try: 
-        #cursor=conexion.connection.cursor()
-        #sql = "SELECT Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, Edad, Run, Parentesco FROM integrantesfamiliareceptora"  
-        
-        
-        return data.to_json()
-    
-
+    if request.method == 'POST':
+        file = request.files['file']
+        print(file)
+             
+        if esExcel(file.filename):
+            data = pd.read_excel(file) #convierte excel en dataframe
+            if not estaVacio(data):
+                if checkColumnas(data):
+                    if checkDatosColumnas(data):
+                        return data.to_json()
+                    else:
+                        return "las columnas contienen errores"    
+                else:
+                    return "Error, no contiene todas las columnas"
+            else:
+                return "Error, archivo excel vacio"                
+        else:
+            if file.filename=="":
+                return "Error no has cargado archivo" 
+            else:
+                return "formato incorrecto, no es excel"    
+             
 
 if __name__ == '__main__':
     app.run(debug= True)
