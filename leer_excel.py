@@ -19,18 +19,18 @@ def data():
             if not estaVacio(data):
                 if checkColumnas(data):
                     if checkDatosColumnas(data):
-                        return data.to_json()
+                        return data.to_json(orient="records"),200
                     else:
-                        return "las columnas contienen errores"    
+                        return "las columnas contienen errores", 400    
                 else:
-                    return "Error, no contiene todas las columnas"
+                    return "Error, no contiene todas las columnas", 400 
             else:
-                return "Error, archivo excel vacio"                
+                return "Error, archivo excel vacio" , 400                
         else:
             if file.filename=="":
-                return "Error no has cargado archivo" 
+                return "Error no has cargado archivo" , 400 
             else:
-                return "formato incorrecto, no es excel"    
+                return "formato incorrecto, no es excel"  , 400   
              
 
 if __name__ == '__main__':
