@@ -11,7 +11,7 @@ def data():
         return render_template("index.html")
 
     if request.method == 'POST':
-        file = request.files['file']
+        file = request.files['archivo']
         print(file)
              
         if esExcel(file.filename):
